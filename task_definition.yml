@@ -1,4 +1,5 @@
 - name: Create task definition
+  hosts: all
   community.aws.ecs_taskdefinition:
     family: dev
     containers:
