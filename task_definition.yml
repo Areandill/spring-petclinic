@@ -1,24 +1,28 @@
-- name: Create task definition
-  hosts: developers
-  community.aws.ecs_taskdefinition:
-    family: dev
-    containers:
-    - name: petclinic
-      essential: true
-      image: "petclinic/$tag"
-      portMappings:
-      - containerPort: 8080
-        hostPort: 8080
-      launch_type: EC2  
-      cpu: 10
-      memory: 512
-    state: present
+- name: Deploy to ECS
+  hosts: local
+  connection: local
+  tasks: 
+  - name: Create task definition
+    community.aws.ecs_taskdefinition:
+       family: dev
+       containers:
+       - name: petclinic
+         essential: true
+         image: "petclinic:{ $tag }"
+         portMappings:
+         - containerPort: 8080
+           hostPort: 8080
+       launch_type: EC2  
+       ec2_region: eu-central-1
+       memory: 512
+       network_mode: awsvpc
+       state: present
 
-- name: Run task
-  ecs_task:
-    operation: run
-    cluster: developer
-    task_definition: dev
-    count: 1
-    started_by: ubuntu
-  #register: task_output   
+  - name: Run task
+    community.aws.ecs_task:
+       operation: run
+       cluster: dev
+       task_definition: dev
+       count: 1
+       started_by: ansible_user
+       #register: task_output   
