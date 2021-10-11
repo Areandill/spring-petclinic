@@ -1,6 +1,8 @@
 [local]
 localhost
 
-[developers]
-3.122.233.131
+[agent]
+18.184.8.238 ansible_user=ec2-user 
 
+[develop]
+54.93.220.58 ansible_user=ec2-user 
