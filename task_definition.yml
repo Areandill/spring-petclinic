@@ -1,0 +1,23 @@
+- name: Create task definition
+  community.aws.ecs_taskdefinition:
+    family: dev
+    containers:
+    - name: petclinic
+      essential: true
+      image: "petclinic/$tag"
+      portMappings:
+      - containerPort: 8080
+        hostPort: 8080
+      launch_type: EC2  
+      cpu: 10
+      memory: 512
+    state: present
+
+- name: Run task
+  ecs_task:
+    operation: run
+    cluster: developer
+    task_definition: dev
+    count: 1
+    started_by: ecruser
+  #register: task_output   
