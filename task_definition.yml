@@ -19,5 +19,5 @@
     cluster: developer
     task_definition: dev
     count: 1
-    started_by: ecruser
+    started_by: ubuntu
   #register: task_output   
