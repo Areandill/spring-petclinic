@@ -8,12 +8,14 @@
        containers:
        - name: petclinic
          essential: true
-         image: "petclinic:{ $tag }"
+         image: "{{ image }}"
          portMappings:
          - containerPort: 8080
            hostPort: 8080
        launch_type: EC2  
        ec2_region: eu-central-1
+       aws_access_key: "{{ AWS_ACCESS_KEY_ID }}"
+       aws_secret_key: "{{ AWS_SECRET_ACCESS_KEY }}"
        memory: 512
        network_mode: awsvpc
        state: present
@@ -21,8 +23,8 @@
   - name: Run task
     community.aws.ecs_task:
        operation: run
-       cluster: dev
+       cluster: developer
        task_definition: dev
        count: 1
        started_by: ansible_user
-       #register: task_output   
+         
