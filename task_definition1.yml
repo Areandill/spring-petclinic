@@ -1,0 +1,32 @@
+- name: AWS task def
+  hosts: local
+  connection: local
+  vars:
+    nexus: "523961285323.dkr.ecr.eu-central-1.amazonaws.com/petclinic"
+
+
+ - name: Create task definition
+    community.aws.ecs_taskdefinition:
+      family: "petclinic_dev"
+      containers:
+      - name: petclinic
+        essential: true
+        image: "{{ nexus }}:{{ timestamp }}"
+        portMappings:
+        - containerPort: 8080
+          hostPort: 80
+      launch_type: EC2
+      memory: 512
+      state: present
+      network_mode: bridge
+
+    
+
+  - name: Run task
+    community.aws.ecs_task:
+      operation: run
+      cluster: developer
+      task_definition: petclinic_dev
+      count: 1
+      started_by: ansible_user
+      launch_type: EC2
