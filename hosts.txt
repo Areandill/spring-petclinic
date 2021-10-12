@@ -2,7 +2,6 @@
 localhost
 
 [agent]
-18.184.8.238 ansible_user=ec2-user 
+18.195.16.202 ansible_user=ec2-user 
 
-[develop]
-54.93.220.58 ansible_user=ec2-user 
+ 
